@@ -42,6 +42,13 @@ class MessagesController < ApplicationController
         respond_to do |format|
           format.json {render :json => @msgs}
         end
+      elsif(cmd == "from_somebody")
+        curUser = get_user_by_token(params[:token])
+        from_id = params[:message][:from_id]
+        @msgs = Message.where(:from_id => from_id,:to_id => curUser.id)
+        respond_to do |format|
+          format.json {render :json => @msgs}
+        end
       end
     end
   end
